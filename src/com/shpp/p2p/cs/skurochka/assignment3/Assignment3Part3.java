@@ -4,15 +4,19 @@ import com.shpp.cs.a.console.TextProgram;
 
 public class Assignment3Part3 extends TextProgram {
     // A constant for entering data into a method created exclusively for testing purposes.
-    private static final double INPUT_NUMBER = 2;
+    private static final double INPUT_NUMBER = 0.5;
     // The exponent constant created for testing the method.
-    private static final int POWER_OF_NUMBER = 3;
+    private static final int POWER_OF_NUMBER = -2;
+    // Constant for enabling the test mode.
+    private static final boolean TEST_MODE = false;
 
     // The method of launching the program.
     @Override
     public void run() {
         // Displaying the data calculated in the method.
         System.out.println("result = " + raiseToPower(INPUT_NUMBER, POWER_OF_NUMBER));
+        // Method for enabling the test mode. Adds a solution output for comparison.
+        testMode(TEST_MODE);
     }
 
     /*
@@ -41,13 +45,22 @@ public class Assignment3Part3 extends TextProgram {
                 result *= base;
             }
         } else {
-            result *= -1;
-            base *= -1;
             for (int i = -1; i > exponent; i--) {
                 result *= base;
             }
-            result = exponent % 2 == 0 ? 1 / result : 1 / result * -1;
+            result = 1 / result;
         }
         return result;
+    }
+
+    /*
+     * Method for adding test results for comparison.
+     * Gets a boolean value to enable the display.
+     * In the middle, the Math.pow() method is used.
+     * */
+    private void testMode(boolean testMode) {
+        if (testMode) {
+            System.out.println("Test result = " + Math.pow(INPUT_NUMBER, POWER_OF_NUMBER));
+        }
     }
 }
