@@ -9,29 +9,29 @@ import java.awt.*;
 
 public class Assignment3Part6 extends WindowProgram {
     // Head diameter in the X and Y coordinate axes.
-    public static final double DIAMETER_OF_HEAD_X = 250;
-    public static final double DIAMETER_OF_HEAD_Y = 200;
+    private static final double DIAMETER_OF_HEAD_X = 250;
+    private static final double DIAMETER_OF_HEAD_Y = 200;
     // Ear diameter in the X and Y coordinate axes.
-    public static final double DIAMETER_OF_EAR_X = 50;
-    public static final double DIAMETER_OF_EAR_Y = 50;
+    private static final double DIAMETER_OF_EAR_X = 50;
+    private static final double DIAMETER_OF_EAR_Y = 50;
     // The diameter of the inner part of the ear in the X and Y coordinate axes.
-    public static final double DIAMETER_OF_EAR_INNER_X = 25;
-    public static final double DIAMETER_OF_EAR_INNER_Y = 25;
+    private static final double DIAMETER_OF_EAR_INNER_X = 25;
+    private static final double DIAMETER_OF_EAR_INNER_Y = 25;
     // Diameter of the eye in the X and Y coordinate axes.
-    public static final double DIAMETER_OF_EYE_X = 20;
-    public static final double DIAMETER_OF_EYE_Y = 20;
+    private static final double DIAMETER_OF_EYE_X = 20;
+    private static final double DIAMETER_OF_EYE_Y = 20;
     // Diameter of the surface part of the eye in the X and Y axis.
-    public static final double DIAMETER_OF_EYE_OVAL_X = 40;
-    public static final double DIAMETER_OF_EYE_OVAL_Y = 35;
+    private static final double DIAMETER_OF_EYE_OVAL_X = 40;
+    private static final double DIAMETER_OF_EYE_OVAL_Y = 35;
     // Diameter of the white part of the face in the X and Y axis.
-    public static final double DIAMETER_OF_WHITE_PLACE_X = 95;
-    public static final double DIAMETER_OF_WHITE_PLACE_Y = 55;
+    private static final double DIAMETER_OF_WHITE_PLACE_X = 95;
+    private static final double DIAMETER_OF_WHITE_PLACE_Y = 55;
     // Nose diameter in the X and Y axis.
-    public static final double DIAMETER_OF_NOSE_X = 20;
-    public static final double DIAMETER_OF_NOSE_Y = 15;
+    private static final double DIAMETER_OF_NOSE_X = 20;
+    private static final double DIAMETER_OF_NOSE_Y = 15;
     // Diameter of the mouth in the X and Y axis.
-    public static final double DIAMETER_OF_MOUTH_X = 50;
-    public static final double DIAMETER_OF_MOUTH_Y = 5;
+    private static final double DIAMETER_OF_MOUTH_X = 50;
+    private static final double DIAMETER_OF_MOUTH_Y = 5;
     // The width and height of the brick.
     private static final double BRICK_WIDTH = 50;
     private static final double BRICK_HEIGHT = 25;
@@ -57,9 +57,18 @@ public class Assignment3Part6 extends WindowProgram {
     private static final double MUSTACHE_DISPLACEMENT = 10;
     // The value of five seconds in milliseconds.
     private static final long FIVE_SECONDS = 5000;
+    // Maximum and minimum eye return force.
+    private static final double THE_MAXIMUM_FORCE_TURNING_THE_EYES = 0.2;
+    private static final double THE_MINIMUM_FORCE_TURNING_THE_EYES = 0.15;
+    // Multipliers for calculating the part of the screen where the brick is located.
+    private static final double MULTIPLIER_FIRST_EYE_POSITION = 1/5.0;
+    private static final double MULTIPLIER_SECOND_EYE_POSITION = 2/5.0;
+    private static final double MULTIPLIER_THIRD_EYE_POSITION = 3/5.0;
+    private static final double MULTIPLIER_FOURTH_EYE_POSITION = 4/5.0;
+    private static final double MULTIPLIER_FIFTH_EYE_POSITION = 5/5.0;
 
     // Enables the test mode to check the animation execution time.
-    private static final boolean TEST_MODE = true;
+    private static final boolean TEST_MODE = false;
 
     // The method of launching the program.
     @Override
@@ -257,7 +266,7 @@ public class Assignment3Part6 extends WindowProgram {
      * then the head, then the ovals of the eyes, then the mustache,
      * then the rest of the face and finally adds the inscription.
      * */
-    public void drawFixedParts(double halfWidth, double halfHeight) {
+    private void drawFixedParts(double halfWidth, double halfHeight) {
         drawEars(halfWidth, halfHeight);
         drawHead(halfWidth, halfHeight);
         drawOvalOfEyes(halfWidth, halfHeight);
@@ -428,7 +437,7 @@ public class Assignment3Part6 extends WindowProgram {
      * */
     private double getPositionY(GRect gRect) {
         double position = gRect.getY();
-        return receivePositionData(position);
+        return receivePositionData(position, getHeight());
     }
 
     /*
@@ -436,17 +445,19 @@ public class Assignment3Part6 extends WindowProgram {
      * The method checks the input parameters against constants and calculates the result
      * of the required offset for the eyes depending on the position of the brick.
      * */
-    private double receivePositionData(double position) {
-        if (position < 100) {
-            return -0.17;
-        } else if (position < 200) {
-            return -0.15;
-        } else if (position < 300) {
+    private double receivePositionData(double position, double valueForComparison) {
+        if (position < valueForComparison * MULTIPLIER_FIRST_EYE_POSITION) {
+            return - THE_MAXIMUM_FORCE_TURNING_THE_EYES;
+        } else if (position < valueForComparison * MULTIPLIER_SECOND_EYE_POSITION) {
+            return - THE_MINIMUM_FORCE_TURNING_THE_EYES;
+        } else if (position < valueForComparison * MULTIPLIER_THIRD_EYE_POSITION) {
             return 0;
-        } else if (position < 400) {
-            return 0.15;
+        } else if (position < valueForComparison * MULTIPLIER_FOURTH_EYE_POSITION) {
+            return THE_MINIMUM_FORCE_TURNING_THE_EYES;
+        } else if (position < valueForComparison * MULTIPLIER_FIFTH_EYE_POSITION) {
+            return THE_MAXIMUM_FORCE_TURNING_THE_EYES;
         } else {
-            return 0.17;
+            return 0;
         }
     }
 
@@ -457,7 +468,7 @@ public class Assignment3Part6 extends WindowProgram {
      * */
     private double getPositionX(GRect gRect) {
         double position = gRect.getX();
-        return receivePositionData(position);
+        return receivePositionData(position, getWidth());
     }
 
     /*
