@@ -1,6 +1,7 @@
 package com.shpp.p2p.cs.skurochka.assignment3;
 
 import com.shpp.cs.a.console.TextProgram;
+
 import java.util.InputMismatchException;
 
 public class Assignment3Part2 extends TextProgram {
@@ -36,7 +37,7 @@ public class Assignment3Part2 extends TextProgram {
         boolean workFlag = true;
         while (workFlag) {
             result = readInt("Enter a number: ");
-            if (result > 1 && result < Integer.MAX_VALUE) {
+            if (result >= 1 && result < Integer.MAX_VALUE) {
                 workFlag = false;
             } else {
                 System.out.println("You have entered an incorrect number. ");
@@ -60,20 +61,33 @@ public class Assignment3Part2 extends TextProgram {
      * */
     private void calculateDataAndShowIt(int inputData) {
         long inputDataLong = inputData;
-        if (inputDataLong > 0) {
-            while (inputDataLong != 1) {
-                long beforeData = inputDataLong;
-                if (inputDataLong % 2 == 0) {
-                    inputDataLong = inputDataLong / 2;
-                    System.out.println(" " + beforeData + " is even so I take half: " + inputDataLong);
-                } else {
-                    inputDataLong = inputDataLong * 3 + 1;
-                    System.out.println(" " + beforeData + " is odd so I make 3n + 1: " + inputDataLong);
-                }
-            }
+        if (inputDataLong == 1) {
+            System.out.println(" The number is already equal to one and does not need to be calculated. ");
+        } else if (inputDataLong > 1) {
+            calculatingValueInLoop(inputDataLong);
         } else {
             System.out.println("Sorry, but you cannot enter zero or negative numbers.");
         }
         System.out.println(" The end ");
+    }
+
+    /*
+     * Method for calculating a value in a loop.
+     * The loop is executed until the input value is equal to one.
+     * If the number is even, it is divided by two, if it is not even,
+     * it is multiplied by three and one is added.
+     * The data in the process of calculation is displayed on the screen.
+     * */
+    private void calculatingValueInLoop(long inputDataLong) {
+        while (inputDataLong != 1) {
+            long beforeData = inputDataLong;
+            if (inputDataLong % 2 == 0) {
+                inputDataLong = inputDataLong / 2;
+                System.out.println(" " + beforeData + " is even so I take half: " + inputDataLong);
+            } else {
+                inputDataLong = inputDataLong * 3 + 1;
+                System.out.println(" " + beforeData + " is odd so I make 3n + 1: " + inputDataLong);
+            }
+        }
     }
 }
