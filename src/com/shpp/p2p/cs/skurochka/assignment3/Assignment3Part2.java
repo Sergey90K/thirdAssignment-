@@ -1,7 +1,6 @@
 package com.shpp.p2p.cs.skurochka.assignment3;
 
 import com.shpp.cs.a.console.TextProgram;
-
 import java.util.InputMismatchException;
 
 public class Assignment3Part2 extends TextProgram {
